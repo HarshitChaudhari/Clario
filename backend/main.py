@@ -97,3 +97,9 @@ async def get_pdf(filename: str):
     if os.path.exists(pdf_path):
         return FileResponse(pdf_path, media_type="application/pdf")
     return {"error": "PDF not found"}
+
+@app.get("/debug")
+def debug():
+    import os
+    key = os.environ.get("OPENROUTER_API_KEY")
+    return {"key_set": key is not None, "key_length": len(key) if key else 0}

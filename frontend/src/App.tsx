@@ -60,7 +60,7 @@ export default function App() {
     const formData = new FormData()
     formData.append("file", uploadFile)
     try {
-      const res = await axios.post("http://localhost:8000/upload", formData)
+      const res = await axios.post("https://clario-5ucn.onrender.com/upload", formData)
       const newDoc: UploadedDoc = {
         filename: res.data.filename,
         collection: res.data.collection,
@@ -93,7 +93,7 @@ export default function App() {
     setMessages(prev => [...prev, { role: "user", content: userMessage }])
     setLoading(true)
     try {
-      const res = await axios.post("http://localhost:8000/chat", {
+      const res = await axios.post("https://clario-5ucn.onrender.com/chat", {
         question: userMessage,
         collection_name: activeDoc.collection,
         language
@@ -805,7 +805,7 @@ export default function App() {
                 </button>
               </div>
               <iframe
-                src={`http://localhost:8000/pdf/${activeDoc.filename}`}
+                src={`https://clario-5ucn.onrender.com/pdf/${activeDoc.filename}`}
                 style={{ flex: 1, border: "none", width: "100%" }}
                 title="PDF Viewer"
               />

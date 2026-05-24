@@ -1,13 +1,12 @@
 from openai import OpenAI
 from vector_store import retrieve_relevant_chunks
-from dotenv import load_dotenv
 import os
 
-load_dotenv()
+api_key = os.environ.get("OPENROUTER_API_KEY")
 
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENROUTER_API_KEY")
+    api_key=api_key
 )
 
 MODEL = "nvidia/nemotron-3-super-120b-a12b:free"

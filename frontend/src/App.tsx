@@ -729,7 +729,7 @@ export default function App() {
                 </div>
               )}
             </div>
-            <button className="clear-btn" onClick={() => { setMessages([]); localStorage.removeItem("clario_messages") }}>
+            <button className="clear-btn" onClick={() => { setMessages([]); setDocs([]); setActiveDoc(null); localStorage.removeItem("clario_messages"); localStorage.removeItem("clario_docs"); }}>
               Clear history
             </button>
           </div>

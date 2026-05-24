@@ -1,20 +1,25 @@
-import chromadb
 import os
 
-client = chromadb.PersistentClient(path="./chroma_db")
+# Simple in-memory document store
+documents_store = {}
 
 def store_chunks(chunks: list, collection_name: str):
-    collection = client.get_or_create_collection(name=collection_name)
-    collection.add(
-        documents=chunks,
-        ids=[f"chunk_{i}" for i in range(len(chunks))]
-    )
+    documents_store[collection_name] = chunks
     return f"Stored {len(chunks)} chunks successfully"
 
 def retrieve_relevant_chunks(query: str, collection_name: str, n_results: int = 3):
-    collection = client.get_or_create_collection(name=collection_name)
-    results = collection.query(
-        query_texts=[query],
-        n_results=n_results
-    )
-    return results['documents'][0]
+    chunks = documents_store.get(collection_name, [])
+    if not chunks:
+        return ["No document found."]
+    
+    # Simple keyword matching
+    query_words = set(query.lower().split())
+    scored = []
+    for chunk in chunks:
+        chunk_words = set(chunk.lower().split())
+        score = len(query_words & chunk_words)
+        scored.append((score, chunk))
+    
+    scored.sort(reverse=True)
+    top_chunks = [chunk for _, chunk in scored[:n_results]]
+    return top_chunks if top_chunks else chunks[:n_results]
